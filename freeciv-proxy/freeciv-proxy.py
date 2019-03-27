@@ -152,10 +152,7 @@ class WSHandler(websocket.WebSocketHandler):
             return "password"
         query = ("select count(*) from servers where port=%(port)s and type='longturn'")
         cursor.execute(query, {'port': self.civserverport})
-        if cursor.fetchall()[0][0] > 0:
-            return "google"
-        else:
-            return "password"
+        return "password"
 
     def check_user_password(self, cursor, username, password):
         query = ("select secure_hashed_password, CAST(ENCRYPT(%(pwd)s, secure_hashed_password) AS CHAR), activated from auth where lower(username)=lower(%(usr)s)")
